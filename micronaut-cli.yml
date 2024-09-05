@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: api.mint
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [app-name, data, data-jpa, flyway, gradle, hibernate-jpa, http-client, java, java-application, jdbc-hikari, junit, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, openapi, postgres, properties, readme, serialization-jackson, shade, static-resources, test-resources]
