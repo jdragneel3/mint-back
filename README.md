@@ -1,55 +1,113 @@
-## Micronaut 4.6.1 Documentation
+# Instructor Scheduling System
 
-- [User Guide](https://docs.micronaut.io/4.6.1/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.6.1/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.6.1/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
----
+## Overview
 
-- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
-- [GraalVM Gradle Plugin documentation](https://graalvm.github.io/native-build-tools/latest/gradle-plugin.html)
-- [Shadow Gradle Plugin](https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow)
-## Feature openapi documentation
+This project is a Java-based application using Micronaut for managing the scheduling of instructors in a training organization. It provides functionality to create, read, update, and delete instructors and their associated events. The system follows the MVC pattern and uses PostgreSQL for data persistence.
 
-- [Micronaut OpenAPI Support documentation](https://micronaut-projects.github.io/micronaut-openapi/latest/guide/index.html)
+## Prerequisites
 
-- [https://www.openapis.org](https://www.openapis.org)
+- Java 17 or higher
+- Micronaut 4.x
+- PostgreSQL
+- Gradle
+- Docker (optional, for running with Docker Compose)
+
+## Setup
+
+### Database Configuration
+
+The application uses PostgreSQL as the database. Configure the database connection as follows:
+
+- **Database Name**: mintdb
+- **Username**: mintdb
+- **Password**: interview
+
+Ensure the PostgreSQL server is running and accessible.
+
+### Application Configuration
+
+The application's database configuration is located in `src/main/resources/application.yml`. Make sure it contains the following settings:
+
+```yaml
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/mintdb
+    username: mintdb
+    password: interview
+    driver-class-name: org.postgresql.Driver
+
+flyway:
+  url: jdbc:postgresql://localhost:5432/mintdb
+  user: mintdb
+  password: interview
+```
+## Running the Application
+
+### Local Development
+To run the application locally, use Gradle:
+
+```bash
+./gradlew run
+```
+
+## Endpoints
+
+### Instructors
+
+- **Create Instructor**: `POST /instructors`
+- **Get Instructor**: `GET /instructors/{id}`
+- **Update Instructor**: `PUT /instructors/{id}`
+- **Delete Instructor**: `DELETE /instructors/{id}`
+- **Get All Instructors**: `GET /instructors`
+
+### Events
+
+- **Create Event**: `POST /events`
+- **Get Event**: `GET /events/{id}`
+- **Update Event**: `PUT /events/{id}`
+- **Delete Event**: `DELETE /events/{id}`
+- **Get All Events for Instructor**: `GET /instructors/{id}/events`
+
+## Data Model
+
+### Organization
+
+- `id`: UUID
+- `name`: String
+- `address`: String
+- `contactEmail`: String
+- `contactPhone`: String
+- `instructors`: List<Instructor>
+
+### Instructor
+
+- `id`: UUID
+- `firstName`: String
+- `lastName`: String
+- `birthday`: LocalDate
+
+### Event
+
+- `id`: UUID
+- `startDate`: LocalDate
+- `endDate`: LocalDate
+- `eventType`: String
+- `description`: String
+
+## Development
+
+### Project Structure
+
+- **api.mint.controller**: Controllers for handling HTTP requests.
+- **api.mint.service**: Services for business logic.
+- **api.mint.model**: Data models and entities.
+- **api.mint.dto**: Data Transfer Objects (DTOs) for requests and responses.
+- **api.mint.mapper**: Mappers for converting between entities and DTOs.
 
 
-## Feature flyway documentation
+## Running Tests
+To run tests, use:
 
-- [Micronaut Flyway Database Migration documentation](https://micronaut-projects.github.io/micronaut-flyway/latest/guide/index.html)
-
-- [https://flywaydb.org/](https://flywaydb.org/)
-
-
-## Feature test-resources documentation
-
-- [Micronaut Test Resources documentation](https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/)
-
-
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-
-## Feature http-client documentation
-
-- [Micronaut HTTP Client documentation](https://docs.micronaut.io/latest/guide/index.html#nettyHttpClient)
-
-
-## Feature serialization-jackson documentation
-
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-
-## Feature jdbc-hikari documentation
-
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
-
-
-## Feature hibernate-jpa documentation
-
-- [Micronaut Hibernate JPA documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#hibernate)
-
-
+```bash
+./gradlew test
+```
